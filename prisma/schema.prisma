@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Password{
-  id String @id @default(cuid())
+  id String @id @default(cuid()) @map("_id") @db.ObjectId
 
   title String
   encryptedPassword String
