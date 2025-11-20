@@ -34,7 +34,7 @@ export default function FormCreatePassword() {
             </p>
 
             <p className="text-xl font-mono break-all text-green-400 leading-relaxed">
-              S3cur3P@ssw0rd!
+              {password}
             </p>
           </div>
 
