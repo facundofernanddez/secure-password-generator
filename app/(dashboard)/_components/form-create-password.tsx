@@ -2,12 +2,24 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { generatePassword } from "@/lib/password";
 import { CopyIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function FormCreatePassword() {
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const generated = generatePassword({
+      hasLowercase: true,
+      hasUppercase: true,
+      hasNumbers: true,
+      hasSymbols: true,
+      length: 12,
+    });
+    setPassword(generated);
+  }, []);
 
   const handleCopyPassword = () => {
     navigator.clipboard.writeText(password).then(() => {
