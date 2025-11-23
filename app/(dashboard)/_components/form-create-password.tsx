@@ -2,13 +2,32 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { generatePassword } from "@/lib/password";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { generatePassword, PasswordConfig } from "@/lib/password";
 import { CopyIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function FormCreatePassword() {
   const [password, setPassword] = useState("");
+
+  const form = useForm<PasswordConfig>({
+    defaultValues: {
+      length: 12,
+      hasLowercase: true,
+      hasUppercase: true,
+      hasNumbers: true,
+      hasSymbols: true,
+    },
+  });
 
   useEffect(() => {
     const generated = generatePassword({
@@ -18,6 +37,7 @@ export default function FormCreatePassword() {
       hasSymbols: true,
       length: 12,
     });
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPassword(generated);
   }, []);
 
@@ -25,6 +45,12 @@ export default function FormCreatePassword() {
     navigator.clipboard.writeText(password).then(() => {
       toast.success("Contraseña copiada al portapapeles");
     });
+  };
+
+  const handleGenerate = () => {
+    const values = form.getValues();
+    const newPassword = generatePassword(values);
+    setPassword(newPassword);
   };
 
   return (
@@ -56,6 +82,46 @@ export default function FormCreatePassword() {
           >
             <CopyIcon />
           </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Configuracion
+          </h2>
+
+          <Form {...form}>
+            <form
+              className="space-y-6"
+              onSubmit={form.handleSubmit(handleGenerate)}
+            >
+              <FormField
+                control={form.control}
+                name="length"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-gray-700">
+                      Longitud de la contraseña
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="number"
+                        className="text-center text-lg font-semibold"
+                        min={4}
+                        max={128}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <div className="space-y-3">
+                <h3>Incluir caracteres</h3>
+              </div>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
