@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -11,10 +12,40 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { generatePassword, PasswordConfig } from "@/lib/password";
-import { CopyIcon } from "lucide-react";
+import {
+  ArrowUp01,
+  CaseLower,
+  CaseUpper,
+  CopyIcon,
+  Hash,
+  ShieldCheck,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+const options = [
+  {
+    key: "hasUppercase",
+    label: "Mayúsculas (A-Z)",
+    icon: <CaseUpper />,
+  },
+  {
+    key: "hasLowercase",
+    label: "Minúsculas (a-z)",
+    icon: <CaseLower />,
+  },
+  {
+    key: "hasNumbers",
+    label: "Números (0-9)",
+    icon: <ArrowUp01 />,
+  },
+  {
+    key: "hasSymbols",
+    label: "Símbolos (!@#$%)",
+    icon: <Hash />,
+  },
+] as const;
 
 export default function FormCreatePassword() {
   const [password, setPassword] = useState("");
@@ -118,7 +149,42 @@ export default function FormCreatePassword() {
               />
 
               <div className="space-y-3">
-                <h3>Incluir caracteres</h3>
+                <h3 className="text-sm font-medium text-gray-700">
+                  Incluir caracteres
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {options.map(({ key, label, icon }) => (
+                    <FormField
+                      key={key}
+                      control={form.control}
+                      name={key}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+
+                            <span className="text-xl">{icon}</span>
+                            <div>
+                              <p>{label}</p>
+                            </div>
+                          </FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
+                <Button type="submit">
+                  <ShieldCheck /> Generar nueva contraseña
+                </Button>
               </div>
             </form>
           </Form>
