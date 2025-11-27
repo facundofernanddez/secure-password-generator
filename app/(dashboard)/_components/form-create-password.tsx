@@ -23,6 +23,7 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import FormSavePassword from "./form-save-password";
 
 const options = [
   {
@@ -185,6 +186,7 @@ export default function FormCreatePassword() {
                 <Button type="submit">
                   <ShieldCheck /> Generar nueva contraseña
                 </Button>
+                <FormSavePassword />
               </div>
             </form>
           </Form>
