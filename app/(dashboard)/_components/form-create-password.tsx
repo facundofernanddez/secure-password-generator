@@ -186,7 +186,10 @@ export default function FormCreatePassword() {
                 <Button type="submit">
                   <ShieldCheck /> Generar nueva contraseña
                 </Button>
-                <FormSavePassword />
+                <FormSavePassword
+                  password={password}
+                  passwordConfig={form.getValues()}
+                />
               </div>
             </form>
           </Form>
