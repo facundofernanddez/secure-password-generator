@@ -10,3 +10,5 @@ export const passwordSchema = z.object({
   hasNumbers: z.boolean().optional(),
   hasSymbols: z.boolean().optional(),
 });
+
+export type PasswordSchemaType = z.infer<typeof passwordSchema>;
