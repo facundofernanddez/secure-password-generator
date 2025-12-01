@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CopyIcon } from "lucide-react";
 import { toast } from "sonner";
 import PasswordOptionsTags from "./password-options-tags";
+import PasswordDeleteDialog from "./password-delete-dialog";
 
 export default function PasswordList() {
   const handleCopyPassword = (password: string) => {
@@ -66,6 +67,7 @@ export default function PasswordList() {
                   <CopyIcon />
                   Copiar
                 </Button>
+                <PasswordDeleteDialog id={data.id} />
               </section>
             </CardContent>
           </Card>
